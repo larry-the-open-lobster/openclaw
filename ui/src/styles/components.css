@@ -1674,6 +1674,12 @@
   border-color: var(--input);
 }
 
+:root[data-theme-mode="light"] .field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
 :root[data-theme-mode="light"] .btn {
   background: var(--bg);
   border-color: var(--input);
@@ -3869,6 +3875,11 @@ td.data-table-key-col {
   background: var(--bg);
 }
 
+:root[data-theme-mode="light"] .chat-bubble:hover {
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
 .chat-line.user .chat-bubble {
   border-color: transparent;
   background: var(--accent-subtle);
@@ -4486,6 +4497,7 @@ td.data-table-key-col {
 
 :root[data-theme-mode="light"] .agents-select {
   background-color: white;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 }
 
 .agents-select:focus {
