@@ -258,14 +258,25 @@ export function createSessionsHistoryTool(opts?: {
       });
       const rawMessages = Array.isArray(result?.messages) ? result.messages : [];
       const selectedMessages = includeTools ? rawMessages : stripToolMessages(rawMessages);
-      const sanitizedMessages = selectedMessages.map((message) => sanitizeHistoryMessage(message));
+      const filteredMessages = selectedMessages.filter((msg) => {
+        const m = msg as Record<string, unknown>;
+        if (!m || m.role !== "assistant") {
+          return true;
+        }
+        if (m.provider !== "openclaw") {
+          return true;
+        }
+        const model = typeof m.model === "string" ? m.model : "";
+        return model !== "delivery-mirror" && model !== "gateway-injected";
+      });
+      const sanitizedMessages = filteredMessages.map((message) => sanitizeHistoryMessage(message));
       const contentTruncated = sanitizedMessages.some((entry) => entry.truncated);
       const contentRedacted = sanitizedMessages.some((entry) => entry.redacted);
       const cappedMessages = capArrayByJsonBytes(
         sanitizedMessages.map((entry) => entry.message),
         SESSIONS_HISTORY_MAX_BYTES,
       );
-      const droppedMessages = cappedMessages.items.length < selectedMessages.length;
+      const droppedMessages = cappedMessages.items.length < filteredMessages.length;
       const hardened = enforceSessionsHistoryHardCap({
         items: cappedMessages.items,
         bytes: cappedMessages.bytes,
